@@ -1,0 +1,756 @@
+/* Late 1990s Apple Aesthetic - Classic Mac OS 8/9 Era */
+
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%; /* Enforce full height */
+  overflow: hidden; /* Prevent global scrollbar */
+}
+
+:root {
+  --apple-white: #f5f5f5;
+  --apple-gray: #e8e8e8;
+  --apple-border: #c0c0c0;
+  --apple-shadow: rgba(0, 0, 0, 0.15);
+  --apple-text: #222222;
+  --apple-accent: #5b9dd9;
+  --apple-warm: #f4ece4;
+  --apple-green: #90c695;
+  --apple-red: #e88a8a;
+  
+  --header-height: 50px;
+  --footer-height: 40px;
+}
+
+body {
+  font-family: "Geneva", "Lucida Grande", "Trebuchet MS", sans-serif;
+  background: var(--apple-white);
+  color: var(--apple-text);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Pixel-perfect rendering */
+img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ─────────────────────────── */
+/* APP ROOT */
+/* ─────────────────────────── */
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─────────────────────────── */
+/* VALENTINE PAGE LAYOUT */
+/* ─────────────────────────── */
+
+.valentine-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--apple-white);
+  overflow: hidden;
+}
+
+.valentine-page header,
+.valentine-page footer {
+  flex-shrink: 0;
+}
+
+.valentine-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.valentine-box {
+  max-width: 900px;
+  width: 100%;
+  background: linear-gradient(to bottom, #ffffff, var(--apple-warm));
+  border: 2px solid var(--apple-border);
+  border-radius: 10px;
+  padding: 48px 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* ─────────────────────────── */
+/* ANIMATIONS (PUG, CAT, ETC) */
+/* ─────────────────────────── */
+
+.pug-walker {
+  position: absolute;
+  bottom: 10px;
+  width: 80px;
+  height: 60px;
+  z-index: 100;
+  pointer-events: none;
+  animation: walkAcross 25s linear infinite;
+  will-change: transform;
+}
+
+.pug-walker img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: transparent;
+}
+
+@keyframes walkAcross {
+  0% {
+    /* Starts exactly off-screen to the left */
+    transform: translateX(-700px); 
+  }
+  100% {
+    /* Ends exactly off-screen to the right */
+    /* Using 100vw ensures it crosses the full viewport width */
+    transform: translateX(100vw); 
+  }
+}
+
+.ponque-walker img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: transparent;
+}
+
+.ponque-walker {
+  position: absolute;
+  bottom: 20px;
+  width: 80px;
+  height: 60px;
+  z-index: 100;
+  pointer-events: none;
+  animation: ponqueWalkAcross 25s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ponqueWalkAcross {
+  0% { transform: translate(100vw, 0); opacity: 0; }
+  5% { opacity: 1; }
+  100% { transform: translate(-200px, -160px); opacity: 1; }
+}
+
+.ponquecita {
+  position: absolute;
+  bottom: 15px;
+  left: 490px;
+  z-index: 20;
+}
+
+.ponquecita img {
+  width: 100px;
+  height: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.15));
+  animation: ponquecita-hop 3.2s ease-in-out infinite;
+}
+
+@keyframes ponquecita-hop {
+  0%, 85%, 100% { transform: translateY(0); filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.15)); }
+  90% { transform: translateY(-6px); filter: drop-shadow(0 10px 0 rgba(0, 0, 0, 0.12)); }
+}
+
+.isadora-ghost {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  z-index: 8;
+}
+
+.isadora-ghost.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.isadora-ghost img {
+  width: 40px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.12));
+}
+
+.isadora-text {
+  font-family: "VT323", monospace;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* ─────────────────────────── */
+/* PASSWORD – Classic Mac OS */
+/* ─────────────────────────── */
+
+.password-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--apple-white);
+  padding: 20px;
+}
+
+.password-card {
+  width: 100%;
+  max-width: 700px;
+  background: linear-gradient(to bottom, #ffffff, var(--apple-warm));
+  border: 2px solid var(--apple-border);
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+  padding: 28px 32px;
+  text-align: center;
+}
+
+.password-title {
+  font-family: "VT323", monospace;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.password-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.password-image,
+.password-video {
+  width: 180px;
+  max-width: 100%;
+  border-radius: 6px;
+  border: 2px solid var(--apple-border);
+  background: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 3px 6px rgba(0,0,0,0.18);
+}
+
+.password-form {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.password-form input {
+  font-family: "Courier Prime", monospace;
+  font-size: 1rem;
+  padding: 6px 10px;
+  width: 200px;
+  border: 2px solid var(--apple-border);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.password-form button {
+  font-family: "Geneva", sans-serif;
+  font-weight: 600;
+  padding: 6px 18px;
+  border: 2px solid #7a7a7a;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #ffffff, #e2e2e2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
+  cursor: pointer;
+}
+
+.password-form button:hover { transform: translateY(-1px); }
+.password-form button:active { transform: translateY(1px); }
+
+.password-error {
+  margin-top: 10px;
+  font-family: "VT323", monospace;
+  font-size: 1rem;
+  color: var(--apple-red);
+}
+
+.password-subtitle {
+  font-family: "VT323", monospace;
+  font-size: 1rem;
+  color: #666;
+  margin-top: -8px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+/* ─────────────────────────── */
+/* HEADER & FOOTER */
+/* ─────────────────────────── */
+
+.apple-header {
+  height: var(--header-height);
+  background: linear-gradient(to bottom, #ffffff, var(--apple-gray));
+  box-shadow: 0 2px 4px var(--apple-shadow);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.apple-logo {
+  font-family: "VT323", monospace;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  text-transform: lowercase;
+}
+
+.apple-footer {
+  height: var(--footer-height);
+  background: linear-gradient(to bottom, var(--apple-gray), #d8d8d8);
+  border-top: 2px solid var(--apple-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #666;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* DASHBOARD - COMPACT WITH EXTRA BOTTOM SPACE */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+.dashboard-container {
+  /* Fills the space between header and footer */
+  flex: 1; 
+  height: calc(100vh - var(--header-height) - var(--footer-height));
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* PADDING ADJUSTMENT: 
+     - Top: 20px
+     - Sides: 40px (More whitespace on sides)
+     - Bottom: 60px (Significant gap before footer) 
+  */
+  padding: 20px 40px 60px;
+  
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden; /* No body scroll */
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.dashboard-title {
+  font-family: "VT323", monospace;
+  font-size: 2rem;
+  font-weight: normal;
+  color: var(--apple-text);
+  margin-bottom: 2px;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.dashboard-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.dashboard-content {
+  /* Flex magic: take up all remaining height minus the bottom padding */
+  flex: 1;
+  min-height: 0; /* Crucial for internal scrolling to work */
+  
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px; /* Increased gap between boxes */
+  align-items: stretch;
+}
+
+/* ─────────────────────────── */
+/* SECTION (MAC WINDOW) */
+/* ─────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill the grid cell */
+  
+  background: linear-gradient(to bottom, #ffffff, var(--apple-warm));
+  border: 2px solid var(--apple-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--apple-shadow);
+  
+  overflow: hidden;
+}
+
+.section-titlebar {
+  background: linear-gradient(to bottom, #d8d8d8, #b8b8b8);
+  border-bottom: 1px solid #999;
+  padding: 4px 8px;
+  height: 22px; /* Very slim title bar */
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Fake Mac OS window widgets */
+.section-titlebar::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    #999,
+    #999 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.section-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px; /* Reduced vertical padding */
+  border-bottom: 1px solid var(--apple-border);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.section-title {
+  font-family: "VT323", monospace;
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: var(--apple-text);
+  letter-spacing: 0.5px;
+}
+
+/* ─────────────────────────── */
+/* ITEMS SCROLL AREA */
+/* ─────────────────────────── */
+
+.items-scroll {
+  flex: 1; /* Take remaining window space */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px; /* Good breathing room inside */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  
+  /* Mac Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--apple-border) transparent;
+}
+
+.items-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.items-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.items-scroll::-webkit-scrollbar-thumb {
+  background: var(--apple-border);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.items-scroll::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ─────────────────────────── */
+/* ITEM CARDS */
+/* ─────────────────────────── */
+
+.item-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--apple-border);
+  border-radius: 4px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.item-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+}
+
+.item-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--apple-text);
+  line-height: 1.2;
+}
+
+.item-description {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.item-meta {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-status {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #ffd93d;
+  border: 1px solid #ccaa00;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.item-status.achieved, .item-status.completed {
+  background: var(--apple-green);
+  border-color: #65a66a;
+  color: #fff;
+}
+.item-status.in_progress {
+  background: #ffb366;
+  border-color: #cc8833;
+  color: #fff;
+}
+
+/* ─────────────────────────── */
+/* BUTTONS */
+/* ─────────────────────────── */
+
+.add-button {
+  font-family: "Geneva", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border: 2px solid #7a7a7a;
+  background: linear-gradient(to bottom, var(--apple-green), #75b37a);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.add-button:hover {
+  background: linear-gradient(to bottom, #a0d4a5, var(--apple-green));
+}
+.add-button:active {
+  transform: translateY(1px);
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 5px;
+  flex-shrink: 0;
+  padding-bottom: 10px;
+}
+
+.mac-button {
+  font-family: "VT323", monospace;
+  font-size: 1.3rem;
+  padding: 8px 28px;
+  min-width: 110px;
+  border-radius: 6px;
+  border: 2px solid #888;
+  background: linear-gradient(to bottom, #ffffff, #e2e2e2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.9);
+  cursor: pointer;
+}
+
+.mac-button:hover { transform: translateY(-1px); }
+.mac-button:active { transform: translateY(1px); }
+
+/* ─────────────────────────── */
+/* MODAL OVERLAY */
+/* ─────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-content {
+  background: linear-gradient(to bottom, #ffffff, var(--apple-warm));
+  border: 2px solid var(--apple-border);
+  border-radius: 8px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.25s ease;
+  padding: 24px 28px;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-family: "VT323", monospace;
+  font-size: 1.8rem;
+  font-weight: normal;
+  margin-bottom: 20px;
+  color: var(--apple-text);
+  text-align: center;
+}
+
+/* ─────────────────────────── */
+/* FORM ELEMENTS */
+/* ─────────────────────────── */
+
+.modal-form { display: flex; flex-direction: column; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.form-label { font-weight: 600; color: var(--apple-text); font-size: 0.9rem; }
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 2px solid var(--apple-border);
+  background: #fff;
+  font-family: "Geneva", "Lucida Grande", sans-serif;
+  font-size: 0.95rem;
+  border-radius: 4px;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--apple-accent);
+}
+
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.form-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 8px; }
+
+.submit-button {
+  font-family: "Geneva", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 24px;
+  border: 2px solid #7a7a7a;
+  background: linear-gradient(to bottom, var(--apple-green), #75b37a);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.cancel-button {
+  font-family: "Geneva", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 8px 24px;
+  border: 2px solid #999;
+  background: linear-gradient(to bottom, #fefefe, #e5e5e5);
+  color: var(--apple-text);
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.error-message {
+  background: linear-gradient(to bottom, #ff9999, #ff7777);
+  border: 2px solid #cc5555;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+.loading { text-align: center; font-size: 1rem; color: #666; padding: 40px 20px; font-style: italic; }
+
+.empty-state { text-align: center; padding: 40px 10px; color: #999; font-style: italic; font-size: 0.9rem; }
+
+/* ─────────────────────────── */
+/* RESPONSIVE */
+/* ─────────────────────────── */
+
+@media (max-width: 768px) {
+  .app, body, html {
+    height: auto;
+    overflow: auto; 
+  }
+
+  .dashboard-container {
+    height: auto;
+    overflow: visible;
+    padding: 20px 16px 40px;
+    display: block; 
+  }
+
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .section {
+    height: 400px; /* Fixed height on mobile */
+  }
+  
+  .dashboard-header { margin-bottom: 20px; }
+  .dashboard-title { font-size: 2.2rem; }
+  
+  .valentine-page { height: auto; min-height: 100vh; overflow-y: auto; }
+  .valentine-main { padding-top: 60px; padding-bottom: 60px; }
+  
+  .password-page { height: auto; min-height: 100vh; padding: 40px 20px; }
+  .password-media { flex-direction: column; }
+  .password-form { flex-direction: column; align-items: center; }
+  .password-form input { width: 100%; }
+}
