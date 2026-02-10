@@ -7,14 +7,14 @@ function PasswordPage({ onSuccess }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false); // For image zoom
+  // Changed to a string state to track WHICH media is expanded
+  const [expandedMedia, setExpandedMedia] = useState(null); 
 
   const submitPassword = async () => {
     if (!password) {
       setError('Please enter the password');
       return;
     }
-
     setError('');
     setLoading(true);
 
@@ -44,77 +44,94 @@ function PasswordPage({ onSuccess }) {
 
   return (
     <div className="password-page">
-      {/* --- EXPANDED IMAGE OVERLAY --- */}
-      {isExpanded && (
+      {/* --- EXPANDED MEDIA OVERLAY --- */}
+      {expandedMedia && (
         <div 
-          onClick={() => setIsExpanded(false)}
+          onClick={() => setExpandedMedia(null)}
           style={{
             position: 'fixed',
             top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.85)',
+            backgroundColor: 'rgba(0,0,0,0.9)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 9999,
-            cursor: 'zoom-out',
             padding: '20px'
           }}
         >
-          <img
-            src="/images/grafico_panquequita.png"
-            alt="Expanded view"
-            style={{
-              maxWidth: '90%',
-              maxHeight: '90%',
-              border: '3px solid #fff',
-              borderRadius: '8px',
-              boxShadow: '0 0 30px rgba(0,0,0,0.5)',
-              imageRendering: 'pixelated'
-            }}
-          />
+          {expandedMedia === 'image' ? (
+            <img
+              src="/images/grafico_panquequita.png"
+              alt="Expanded view"
+              style={{
+                maxWidth: '90%',
+                maxHeight: '90%',
+                border: '3px solid #fff',
+                borderRadius: '8px',
+                boxShadow: '0 0 30px rgba(0,0,0,0.5)',
+                imageRendering: 'pixelated',
+                cursor: 'zoom-out'
+              }}
+            />
+          ) : (
+            <video
+              controls // Shows play, volume, and progress bar
+              autoPlay
+              style={{
+                maxWidth: '90%',
+                maxHeight: '90%',
+                border: '3px solid #fff',
+                borderRadius: '8px',
+                boxShadow: '0 0 30px rgba(0,0,0,0.5)'
+              }}
+              onClick={(e) => e.stopPropagation()} // Prevents closing when clicking video controls
+            >
+              <source
+                src="https://res.cloudinary.com/dfwlff17n/video/upload/q_auto,f_auto/v1770681095/video_panquequita_efejuf.mp4"
+                type="video/mp4"
+              />
+            </video>
+          )}
+
           <div style={{
             position: 'absolute',
-            bottom: '40px',
+            bottom: '20px',
             color: 'white',
             fontFamily: 'monospace',
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            padding: '5px 15px',
-            borderRadius: '20px'
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            padding: '8px 16px',
+            borderRadius: '20px',
+            pointerEvents: 'none'
           }}>
-            Click para cerrar
+            Click fuera para cerrar
           </div>
         </div>
       )}
 
       <div className="password-card">
-        <h1 className="password-title">
-          Pon la contraseña secreta
-        </h1>
-        <p className="password-subtitle">
-          Detrás de escenas
-        </p>
+        <h1 className="password-title">Pon la contraseña secreta</h1>
+        <p className="password-subtitle">Detrás de escenas</p>
 
-        {/* Visual block */}
         <div className="password-media">
+          {/* IMAGE THUMBNAIL */}
           <img
             src="/images/grafico_panquequita.png"
-            alt="Architecture diagram"
             className="password-image"
-            onClick={() => setIsExpanded(true)}
-            style={{ 
-              cursor: 'zoom-in',
-              transition: 'transform 0.2s'
-            }}
+            onClick={() => setExpandedMedia('image')}
+            style={{ cursor: 'zoom-in', transition: 'transform 0.2s' }}
             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            alt="Graphic"
           />
 
+          {/* VIDEO THUMBNAIL */}
           <video
             className="password-video"
-            autoPlay
-            loop
-            muted
-            playsInline
+            autoPlay loop muted playsInline
+            onClick={() => setExpandedMedia('video')}
+            style={{ cursor: 'zoom-in', transition: 'transform 0.2s' }}
+            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
             <source
               src="https://res.cloudinary.com/dfwlff17n/video/upload/q_auto,f_auto/v1770681095/video_panquequita_efejuf.mp4"
@@ -123,7 +140,6 @@ function PasswordPage({ onSuccess }) {
           </video>
         </div>
 
-        {/* Form */}
         <div className="password-form">
           <input
             type="password"
@@ -132,7 +148,6 @@ function PasswordPage({ onSuccess }) {
             disabled={loading}
             placeholder="Secreto aqui!"
           />
-
           <button onClick={submitPassword} disabled={loading}>
             {loading ? 'Verificando..' : 'Enter'}
           </button>
